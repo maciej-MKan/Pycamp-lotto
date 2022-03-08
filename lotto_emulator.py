@@ -1,11 +1,11 @@
-"""Skrypt obliczający ile losowych prób trzeba podjąć dla wylosowania 6 użytkownika
-Numery podaje użytkownik lub losuje je skrypt"""
+"""A script that calculates how many random attempts are required to select a 6 user
+The numbers are provided by the user or randomly selected by the script"""
 
 import random
 
 
 class HitCounter:
-    """Klasa zliczająca próby wygrane i przegrane w liście
+    """Class that counts attempts won and lost in a list
     ['miss', '1-hit', ... ,'6-hit']"""
 
     def __init__(self) -> None:
@@ -13,30 +13,30 @@ class HitCounter:
         self.total = 0
 
     def get_total(self) -> int:
-        """zwraca sumę liczników
+        """returns the sum of the counters
 
         Returns:
-            int: całkowita ilośc podjętych prób
+            int: total number of attempts made
         """
         for i in self.get_counters():
             self.total += int(i)
         return self.total
 
     def inc_counter(self, value):
-        """zwiększenie liczników wedłóg ilości dopasowaych numerów
+        """increasing the counters according to the number of matching numbers
 
         Args:
-            value (int in range(0,6)): ilość dopasowanych numerów
+            value (int in range(0,6)): number of matched numbers
         """
         self._counters[value] += 1
 
     def get_counters(self) -> list:
-        """zwraca listę liczników"""
+        """returns a list of counters"""
         return self._counters
 
 def get_random_numbers() -> set:
-    """wylosowanie 6 różnych liczb z zaktesy 1 - 49
-    Funkcja zwraca 6 elementowy set"""
+    """drawing 6 different numbers from ranges 1 - 49
+    The function returns a 6-element set"""
 
     number_set = set()
 
@@ -45,14 +45,14 @@ def get_random_numbers() -> set:
     return number_set
 
 def validate_numbers_from_user(user_choice) -> set:
-    """sprawdza poprawność dannych podanych przez użytkownika
-    6 numerów z zaktesu 1 - 49 lub opcja losuj
+    """validates the data provided by the user
+    6 numbers from 1 - 49 or the random option
 
     Args:
-        user_choice (str): dane podane przez użytkownika
+        user_choice (str): data provided by the user
 
     Returns:
-        set: 6 numerów z zakresu 1 - 49 lub opis błędu
+        set: 6 numbers from 1 - 49 or error description
     """
     number_set = set()
     err = ''
