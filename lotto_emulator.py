@@ -1,3 +1,7 @@
+#!/usr/bin/env python
+# -*- encoding: utf-8 -*-
+# -*- coding: utf-8 -*- 
+
 """A script that calculates how many random attempts are required to select a 6 user
 The numbers are provided by the user or randomly selected by the script"""
 
