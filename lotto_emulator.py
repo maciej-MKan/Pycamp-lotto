@@ -14,17 +14,13 @@ class HitCounter:
 
     def __init__(self) -> None:
         self._counters = [0,0,0,0,0,0,0]
-        self.total = 0
 
     def get_total(self) -> int:
         """returns the sum of the counters
-
         Returns:
             int: total number of attempts made
         """
-        for i in self.get_counters():
-            self.total += int(i)
-        return self.total
+        return sum(self._counters)
 
     def inc_counter(self, value):
         """increasing the counters according to the number of matching numbers
@@ -56,10 +52,10 @@ def validate_numbers_from_user(user_choice) -> set:
         user_choice (str): data provided by the user
 
     Returns:
+        str: description of errors in user data,
         set: 6 numbers from 1 - 49 or error description
     """
     number_set = set()
-    err = ''
     err_desc = ''
 
     if user_choice.lower() == 'losuj':
@@ -67,27 +63,22 @@ def validate_numbers_from_user(user_choice) -> set:
     else:
         try:
             user_choice = user_choice.split(',')
-            for enum_user_choice in enumerate(user_choice):
-                number_set.add(int(enum_user_choice[1]))
+            for number in user_choice:
+                number_set.add(int(number))
         except TypeError:
-            err_desc += "\nPodałeś coś niewłasciwego."
-            err = "bad type data"
+            err_desc += "\nPodałeś coś niewłasciwego. "
         except ValueError:
-            err_desc += "\nPodałeś coś niewłasciwego."
-            err = "bad value data"
+            err_desc += "\nPodałeś coś niewłasciwego. "
 
         if len(number_set) != 6:
-            err_desc += "\nPodałeś niewłaściwą ilość liczb."
-            err = "wrong amount"
+            err_desc += "\nPodałeś niewłaściwą ilość liczb. "
         else:
             for number in number_set:
                 if number not in range(1, 50):
-                    err_desc += f"Liczba {number} jest z poza zakresu."
-                    err = "not in range"
-
-    if err:
-        return {err_desc}
-    return number_set
+                    err_desc += f"\nLiczba {number} jest z poza zakresu. "
+    if err_desc:
+        number_set = set()
+    return err_desc, number_set
 
 
 
@@ -97,28 +88,28 @@ if __name__ == '__main__':
     hit_counter = HitCounter()
 
     while len(numbers) < 6:
-        if numbers:
-            print(list(numbers)[0])
-        numbers = validate_numbers_from_user(input('''
+        err, numbers = validate_numbers_from_user(input('''
 Podaj 6 różnych liczb z zakresu od 1 do 49. Oddziel je przecinkami
 jeśli chcesz wylosowć liczby w systemie Chybił-Trafił wpisz "losuj": \n''')
         )
+        print(err)
 
-    print(f"\ntwoje numery to: {numbers} \n")
+    print(f"twoje numery to: {numbers} \n")
     print("zaczynamy!")
 
     while numbers != random_numbers:
         random_numbers = get_random_numbers()
-        hit_value = len([i for i in numbers if i in random_numbers])
+        hit_value = len(numbers.intersection(random_numbers))
         hit_counter.inc_counter(hit_value)
         if hit_value > 4:
             print("-", end="", flush=True)
 
     total = hit_counter.get_total()
+    hits = hit_counter.get_counters()
     print(f"\npotrzebowałeś {total:,} prób, żeby trafić szustkę")
     print(f"wydałeś na to {total * 3:,} złotych")
     print(f"zajęło ci to {total / 3:,.0f} tygodni")
     print(f"""w międzyczasie trafiłeś:
-    {hit_counter.get_counters()[3]:,} trójek
-    {hit_counter.get_counters()[4]:,} czwórek
-    {hit_counter.get_counters()[5]:,} piątek""")
+    {hits[3]:,} trójek
+    {hits[4]:,} czwórek
+    {hits[5]:,} piątek""")

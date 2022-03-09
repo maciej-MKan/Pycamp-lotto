@@ -16,7 +16,8 @@ def test_random_generate():
 
 def test_len_generate_numbers():
     """checking the random function"""
-    assert len(lotto_emulator.validate_numbers_from_user('losuj')) == 6
+    _, numbers = lotto_emulator.validate_numbers_from_user('losuj')
+    assert len(numbers) == 6
 
 def test_validate_user_data():
     """checking the validation of user data"""
@@ -26,11 +27,13 @@ def test_validate_user_data():
 
 def test_convert_user_data():
     """checking the correctness of user data conversion"""
-    assert isinstance(lotto_emulator.validate_numbers_from_user('1,2,3,4,5,6'), set)
+    _, numbers = lotto_emulator.validate_numbers_from_user('1,2,3,4,5,6')
+    assert isinstance(numbers, set)
 
 def test_range():
     """checking the scope of received data"""
-    assert lotto_emulator.validate_numbers_from_user('1,2,3,4,5,49') == {1,2,3,4,5,49}
+    _, numbers = lotto_emulator.validate_numbers_from_user('1,2,3,4,5,49')
+    assert  numbers == {1,2,3,4,5,49}
 
 def test_counters_class():
     """checking the correct operation of the counters"""
