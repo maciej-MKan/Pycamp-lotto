@@ -1,3 +1,5 @@
+#!/usr/bin/env pytest
+
 """Test module for lotto_emulator"""
 
 import lotto_emulator
