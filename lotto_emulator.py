@@ -53,7 +53,7 @@ def validate_numbers_from_user(user_choice) -> set:
 
     Returns:
         str: description of errors in user data,
-        set: 6 numbers from 1 - 49 or error description
+        set: 6 numbers from 1 - 49
     """
     number_set = set()
     err_desc = ''
